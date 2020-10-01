@@ -1,0 +1,63 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block content %}
+  <link rel="stylesheet" type="text/css" href="{% static 'home/home.css' %}">
+  <div class="jumbotron mb-0 py-4">
+    <h1 class="title">Wikidict</h1>
+    <h4>Wyszukiwarka znaczeń i odmiany słów</h4>
+  </div>
+  <p>
+    <h3>{{ query }}</h3>
+  </p>
+  <p>
+    <hr>
+    {% for key, value in result.items %}
+        {% for key2, value2 in value.items %}
+          {% if key2 == "odmiana"%}
+            {% if value2 == "nieodmienny" %}
+              <b>{{key2}}</b>: nieodmienne </br>
+            {% elif value2 == "specjalne" %}
+              <b>{{key2}}</b>: specjalne </br>
+            {% else %}
+              <b>{{key2}}</b>: </br>
+              <table class="table">
+              {% for key3, value3 in value2.items %}
+                {% if forloop.counter0 == 0%}
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    {% for key4, value4 in value3.items %}
+                      <th scope="col">{{ key4 }}</th>
+                    {% endfor %}
+                  </tr>
+                </thead>
+                <tbody>
+              {% endif %}
+              <tr>
+                  <th scope="row">{{key3}}</th>
+                  {% for key4, value4 in value3.items %}
+                  <td>{{ value4 }}</td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+
+                
+              </tbody>
+            </table> 
+            {% endif %}
+          {% else %}
+            <b>{{key2}}</b>: {{ value2 }} </br>
+          {% endif%}
+        {% endfor %}
+        <hr>
+    {% endfor %}
+  </p>
+
+{% endblock content %}
+
+{% block sidebar %}
+{% endblock sidebar %}
+
+{% block title_block %}
+- home
+{% endblock title_block%}
