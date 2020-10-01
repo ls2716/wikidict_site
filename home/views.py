@@ -38,6 +38,8 @@ def contact(request):
 
 def query(request, query):
     result = parser.fetch_by_meaning(query)
+    if result==None:
+        result = {}
     context = {'query': query,
                 'result': result,}
     return render(request, 'home/query.html', context)
